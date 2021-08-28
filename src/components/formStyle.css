@@ -1,0 +1,32 @@
+body{
+    background: linear-gradient(
+    to left,
+    rgb(186, 194, 70) 0%,
+    rgb(203, 207, 148) 100%
+  );
+}
+
+.Form {
+    background-color: rgb(189, 155, 112);
+    border: 1px solid grey;
+    border-radius: 2rem;
+    width: 50rem;
+    padding: 5rem;
+    margin: 40px auto
+}
+
+.title{
+    margin-bottom: 5rem;
+    text-decoration: underline;
+    font-weight: 650;
+    text-align: center;
+}
+
+.alignRemember{
+    align-content: left;
+    text-align: left;
+}
+
+.label{
+    font-weight: 500;
+}
