@@ -7,9 +7,9 @@ body{
 }
 
 .Form {
-    background-color: rgb(189, 155, 112);
+    background-color: rgb(207, 223, 149);
     border: 1px solid grey;
-    border-radius: 2rem;
+    border-radius: 1rem;
     width: 50rem;
     padding: 5rem;
     margin: 40px auto
