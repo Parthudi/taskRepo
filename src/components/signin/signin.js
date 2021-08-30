@@ -17,31 +17,40 @@ const Signup = (props) => {
 
     const handleOnSubmit = async event => {
         event.preventDefault();
-        const newEmailPassword = emailPassword.trim().split("&");
-        const newUserNamePassword = usernamePassword.trim().split("&");
+        const newEmailPassword = emailPassword.split("&");
+        const newUserNamePassword = usernamePassword.split("&");
+        if(newEmailPassword.includes("&") && newUserNamePassword.includes("&")){
+            if(typeof window !== "undefined") {
+                if(localStorage.getItem("userDetails")) {
+                        const user = JSON.parse(localStorage.getItem("userDetails"));
+                        setEmail(user.email);
+                        setUsername(user.username);
+                        setPassword(user.password);
+                    } else{
+                        setError("User Not Found");
+                        return 
+                    }
+                }
     
-        if(typeof window !== "undefined") {
-            if(localStorage.getItem("userDetails")) {
-                    const user = JSON.parse(localStorage.getItem("userDetails"));
-                    setEmail(user.email.trim());
-                    setUsername(user.username.trim());
-                    setPassword(user.password.trim());
-                } else{
-                    setError("User Not Found");
-                    return 
+                console.log(newEmailPassword[0].toLowerCase().trim() === email.toLowerCase().trim())
+                console.log(newEmailPassword[1].toLowerCase().trim() === password.toLowerCase().trim()) 
+                console.log(newUserNamePassword[0].toLowerCase().trim() === username.toLowerCase().trim())
+                console.log(newUserNamePassword[1].toLowerCase().trim() === password.toLowerCase().trim());
+    
+            if(newEmailPassword[0].toLowerCase().trim() === email.toLowerCase().trim() && newEmailPassword[1].toLowerCase().trim() === password.toLowerCase().trim() && newUserNamePassword[0].toLowerCase().trim() === username.toLowerCase().trim() && newUserNamePassword[1].toLowerCase().trim() === password.toLowerCase().trim()){
+                console.log("welcome bro matching");
+                if(typeof window !== "undefined" && localStorage.getItem("userDetails")) {
+                     props.history.push("/dashboard"); 
+                  }else{
+                    setError("Incorrect Details");
+                    console.log(error);
+                    return;
+                  }
                 }
             }
-
-        if(newEmailPassword[0].trim() === email.trim() && newEmailPassword[1].trim() === password.trim() && newUserNamePassword[0].trim() === username.trim() && newUserNamePassword[1].trim() === password.trim()){
-            console.log("welcome bro matching");
-            if(typeof window !== "undefined" && localStorage.getItem("userDetails")) {
-                 props.history.push("/dashboard"); 
-              }else{
-                setError("Incorrect Details");
-                return;
-              }
-            }else{
-                setError("Incorrect Details");
+            else{
+                setError("Incorrect Details, Please Differentiate Both Values With '&' Operator");
+                console.log(error);
                 return;
             }
         }
@@ -63,15 +72,11 @@ const Signup = (props) => {
             }
         }
 
-        const showError = () => (
-            <div  style={{ color: 'red', display: error ? "" : 'none' }}> {error} </div>
-            )
-
-        return (
-            <form className="Form">
+        const loginForm = () => {
+            return(
+                <form className="Form">
                 <h3 className="title">Log In</h3>
-               
-                {showError}
+                {showError()}
                
                 <div className="form-group">
                     <label className="label">Email & Password</label>
@@ -92,7 +97,17 @@ const Signup = (props) => {
 
                 <button type="submit" disabled={disablebutton} style={{cursor : disablebutton ? "not-allowed" : "pointer"}}  onClick={(e) => handleOnSubmit(e)} className="btn btn-info btn-lg btn-block">Sign in</button>
             </form>
+            )
+        }
 
+        const showError = () => (
+            <div className="errorMessage" style={{ color: 'red', display: error ? "" : 'none'}}> {error} </div>
+            )
+
+        return (
+            <div>
+                {loginForm()}
+            </div>
         )       
 }
 export default Signup

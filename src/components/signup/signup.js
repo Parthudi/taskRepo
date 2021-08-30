@@ -30,14 +30,19 @@ const SignUp = (props) => {
       const handleOnSubmit = (event) => {
             event.preventDefault()
             
-            if(typeof window !== "undefined") {
-                localStorage.setItem('userDetails', JSON.stringify(values))
-              }
-            if(localStorage.getItem("userDetails")) {
-                props.history.push('/login'); 
+            if(password === confirmpassword){
+                if(typeof window !== "undefined") {
+                    localStorage.setItem('userDetails', JSON.stringify(values))
+                  }
+                if(localStorage.getItem("userDetails")) {
+                    props.history.push('/login'); 
+                }else{
+                      setError("Something Went Wrong Please Try Again After SomeTimes");
+                  } 
             }else{
-                  setError("Something Went Wrong Please Try Again After SomeTimes");
-              } 
+                setErrorValues({cp: "Password And Confirm Password Didnt Match"});
+            }
+     
       }
 
     const handleOnChange = async(event) => {
@@ -66,18 +71,15 @@ const SignUp = (props) => {
             setErrorValues({e: "Email Invalid"});
             return;
         }
-        if(focusfield==="password" && password.length < 6){
+
+        if(focusfield==="password" && password.length < 6  && !regularExpression.test(password)) {
             setErrorValues({p: "Weak Password"});
             return;
         }
-        if(focusfield==="password"  && !regularExpression.test(password)) {
-            setErrorValues({p: "Weak Password"});
-            return;
-        }
-        if(focusfield==="confpassword" && password !== confirmpassword){
-            setErrorValues({cp: "Password And Confirm Password Didnt Match"});
-            return;
-        }
+        // if(focusfield==="confirmpassword" && password !== confirmpassword){
+        //     setErrorValues({cp: "Password And Confirm Password Didnt Match"});
+        //     return;
+        // }
         if(error.length == 0){
             setDisableButton(false);
         }
